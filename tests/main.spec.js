@@ -39,6 +39,18 @@ describe('Spotify Wrapper', () => {
 			const fetchedStub = sinon.stub(global, 'fetch');
 			const artists = search();
 			expect(fetchedStub).to.have.been.calledOnce
+			fetchedStub.restore(); //necessário para poder testar fetch novamente
+		})
+
+		it('should receive the correct url to fetch', () => {
+			const fetchedStub = sinon.stub(global, 'fetch');
+			const artists = search('Nirvana', 'artist');
+			expect(fetchedStub).to.have.been
+				.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist')
+
+			const albums = search('Nirvana', 'album');
+			expect(fetchedStub).to.have.been
+				.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=album')
 		})
 	})
 });
