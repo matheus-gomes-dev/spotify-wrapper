@@ -36,9 +36,11 @@ describe('Spotify Wrapper', () => {
 
 	describe('Generic Search', () => {
 		let fetchedStub;
+		let promise;
 
 		beforeEach( () => {
 			fetchedStub = sinon.stub(global, 'fetch');
+			promise = fetchedStub.returnsPromise();
 		})
 
 		afterEach( () => {
@@ -65,6 +67,12 @@ describe('Spotify Wrapper', () => {
 				expect(fetchedStub).to.have.been
 					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist,album')
 			})
+		})
+
+		it('should return the JSON Data from the Promise', () => {
+			promise.resolves({ body: 'json'})
+			const artists = search('Nirvana', 'artist');
+			expect(artists.resolveValue).to.be.eql({body: 'json'})
 		})
 	})
 });
