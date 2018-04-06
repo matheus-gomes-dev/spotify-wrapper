@@ -38,6 +38,7 @@ describe('Spotify Wrapper', () => {
 		it('should call fetch function', () => {
 			const fetchedStub = sinon.stub(global, 'fetch');
 			const artists = search();
+			expect(fetchedStub).to.have.been.calledOnce
 		})
 	})
 });
