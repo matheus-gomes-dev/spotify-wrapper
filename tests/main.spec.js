@@ -35,22 +35,36 @@ describe('Spotify Wrapper', () => {
 	})
 
 	describe('Generic Search', () => {
-		it('should call fetch function', () => {
-			const fetchedStub = sinon.stub(global, 'fetch');
-			const artists = search();
-			expect(fetchedStub).to.have.been.calledOnce
+		let fetchedStub;
+
+		beforeEach( () => {
+			fetchedStub = sinon.stub(global, 'fetch');
+		})
+
+		afterEach( () => {
 			fetchedStub.restore(); //necessário para poder testar fetch novamente
 		})
 
-		it('should receive the correct url to fetch', () => {
-			const fetchedStub = sinon.stub(global, 'fetch');
-			const artists = search('Nirvana', 'artist');
-			expect(fetchedStub).to.have.been
-				.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist')
+		it('should call fetch function', () => {
+			const artists = search();
+			expect(fetchedStub).to.have.been.calledOnce
+		})
 
-			const albums = search('Nirvana', 'album');
-			expect(fetchedStub).to.have.been
-				.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=album')
+		it('should call fetch with the correct URL', () => {
+			context('passing one type', () => {
+				const artists = search('Nirvana', 'artist');
+				expect(fetchedStub).to.have.been
+					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist')
+
+				const albums = search('Nirvana', 'album');
+				expect(fetchedStub).to.have.been
+					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=album')
+			})
+			context('passing more than one type', () => {
+				const artistsAndAlbums = search('Nirvana', ['artist', 'album']);
+				expect(fetchedStub).to.have.been
+					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist,album')
+			})
 		})
 	})
 });
