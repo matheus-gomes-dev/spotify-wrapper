@@ -8,9 +8,9 @@ chai.use(sinonChai);
 sinonStubPromise(sinon);
 global.fetch = require('node-fetch');
 
-import { search, searchAlbums, searchArtists, searchTracks, searchPlaylists } from '../src/main'
+import { search, searchAlbums, searchArtists, searchTracks, searchPlaylists } from '../src/search'
 
-describe('Spotify Wrapper', () => {
+describe('Search', () => {
 	let fetchedStub;
 	let promise;
 
@@ -57,16 +57,16 @@ describe('Spotify Wrapper', () => {
 			context('passing one type', () => {
 				const artists = search('Nirvana', 'artist');
 				expect(fetchedStub).to.have.been
-					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist');
+					.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=artist');
 
 				const albums = search('Nirvana', 'album');
 				expect(fetchedStub).to.have.been
-					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=album');
+					.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=album');
 			})
 			context('passing more than one type', () => {
 				const artistsAndAlbums = search('Nirvana', ['artist', 'album']);
 				expect(fetchedStub).to.have.been
-					.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist,album');
+					.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=artist,album');
 			})
 		})
 
@@ -86,7 +86,7 @@ describe('Spotify Wrapper', () => {
 
 		it('should call fetch with the correct URL', () => {
 			const artists = searchArtists("Nirvana");
-			expect(fetchedStub).to.have.been.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=artist');
+			expect(fetchedStub).to.have.been.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=artist');
 		})
 	})
 
@@ -99,7 +99,7 @@ describe('Spotify Wrapper', () => {
 
 		it('should call fetch with the correct URL', () => {
 			const albums = searchAlbums("Nirvana");
-			expect(fetchedStub).to.have.been.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=album');
+			expect(fetchedStub).to.have.been.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=album');
 		})
 	})
 
@@ -112,7 +112,7 @@ describe('Spotify Wrapper', () => {
 
 		it('should call fetch with the correct URL', () => {
 			const tracks = searchTracks("Nirvana");
-			expect(fetchedStub).to.have.been.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=track');
+			expect(fetchedStub).to.have.been.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=track');
 		})
 	})
 
@@ -125,7 +125,7 @@ describe('Spotify Wrapper', () => {
 
 		it('should call fetch with the correct URL', () => {
 			const playlists = searchPlaylists("Nirvana");
-			expect(fetchedStub).to.have.been.calledWith('http://api.spotify.com/v1/search?q=Nirvana&type=playlist');
+			expect(fetchedStub).to.have.been.calledWith('https://api.spotify.com/v1/search?q=Nirvana&type=playlist');
 		})
 	})
 });
